@@ -1,9 +1,9 @@
 export const PlaceholderCard1 = {
     c1: {
         id: 'c1',
-        name: 'PlaceholderCard1',
         question: 'Question 1',
-        answer: 'Aswer 1'
+        answer: 'Aswer 1',
+        type: 'Question Type'
     }
 };
 export const PlaceholderCard2 = {
