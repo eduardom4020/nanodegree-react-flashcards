@@ -7,7 +7,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { PlaceholderDeck1 } from './placeholder/data/decks';
 // import Deck from './components/Cards/Deck';
 // import DeckPage from './components/Pages/DeckPage';
-import CardPage from './components/Pages/CardPage';
+// import CardPage from './components/Pages/CardPage';
+// import NewDeckPage from './components/Pages/NewDeckPage';
+import NewCardPage from './components/Pages/NewCardPage';
 
 export default class App extends React.Component {
     render() {
@@ -15,9 +17,7 @@ export default class App extends React.Component {
 
         return (
             <View style={styles.container}>
-                <CardPage 
-                    card={pd1.cards.c1}
-                />
+                <NewCardPage />
             </View>
         );
     }
