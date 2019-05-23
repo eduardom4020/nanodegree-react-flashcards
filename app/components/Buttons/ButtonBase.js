@@ -23,10 +23,17 @@ const FilledShadowedButton = styled.TouchableOpacity`
     background-color: plum;
     border-radius: 8px;
     padding: 8px 4px 8px 4px;
+    
+    flex: 1;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    min-height: 30px;
+    max-height: 40px;
 `;
 
 const ColoredText = styled.Text`
-    color: ${props => props.color || 'grey'}
+    color: ${props => props.textColor || 'grey'}
 `;
 
 export default ButtonBase;
