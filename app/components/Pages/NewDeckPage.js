@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Text, View, TextInput } from 'react-native';
 import styled from 'styled-components';
 
+import AppMain from '../Styled/AppMain';
+
 import ButtonBase from '../Buttons/ButtonBase';
 
 class NewDeckPage extends Component {
@@ -23,22 +25,24 @@ class NewDeckPage extends Component {
         const { deckName } = this.state;
 
         return (
-            <PageBase>
-                <Body>
-                    <Title>Give a name to your deck</Title>
-                    <InputField
-                        onChangeText={this.changeText}
-                        value={deckName}
-                    />
-                </Body>
-                <Actions>
-                    <ButtonBase 
-                        text='Create Deck!'
-                        filledColor='purple'
-                        textColor='white'
-                    />
-                </Actions>
-            </PageBase>
+            <AppMain>
+                <PageBase>
+                    <Body>
+                        <Title>Give a name to your deck</Title>
+                        <InputField
+                            onChangeText={this.changeText}
+                            value={deckName}
+                        />
+                    </Body>
+                    <Actions>
+                        <ButtonBase 
+                            text='Create Deck!'
+                            filledColor='purple'
+                            textColor='white'
+                        />
+                    </Actions>
+                </PageBase>
+            </AppMain>
         );
     }
 }
