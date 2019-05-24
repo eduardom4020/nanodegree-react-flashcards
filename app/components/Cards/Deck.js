@@ -9,6 +9,7 @@ const Deck = props => {
 
     return (
         <CardBase
+            {...props}
             body={
                 <BodyCentered>
                     <Title>{deck.name}</Title>
@@ -21,6 +22,7 @@ const Deck = props => {
             ]}
             isTouchable={true}
             actionColor='purple'
+            toStack='DeckPage'
         />
     );
 }

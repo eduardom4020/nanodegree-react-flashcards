@@ -13,7 +13,14 @@ const CardBase = props => (
             props.body && (
                 props.isTouchable ? 
                     (
-                        <TouchableOpacity style={{flex: 3, width: 300}}>
+                        <TouchableOpacity 
+                            style={{flex: 3, width: 300}}
+                            onPress={() => (
+                                props.navigation && 
+                                props.toStack &&
+                                props.navigation.navigate(props.toStack, {...props})
+                            )}
+                        >
                             {props.body}
                         </TouchableOpacity>
                     )

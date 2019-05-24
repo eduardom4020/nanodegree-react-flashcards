@@ -10,7 +10,8 @@ const BASE_ACTIONS = [
 ]
 
 const DeckPage = props => {
-    const { deck, actions=BASE_ACTIONS } = props;
+    const { deck: propsDeck, actions=BASE_ACTIONS } = props;
+    const deck = propsDeck || props.navigation.getParam('deck', {name: 'No Data', cards: 0})
 
     return (
         <PageBase>
