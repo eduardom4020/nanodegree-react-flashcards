@@ -17,12 +17,12 @@ const Deck = props => {
                 </BodyCentered>
             }
             actions={[
-                {id: 'add', name: 'Add Card'},
-                {id: 'start', name: 'Start Quiz'}
+                {id: 'add', name: 'Add Card', toStack: 'NewCardPage'},
+                {id: 'start', name: 'Start Quiz', toStack: 'CardPage'}
             ]}
             isTouchable={true}
             actionColor='purple'
-            toStack='DeckPage'
+            bodyClickToStack='DeckPage'
         />
     );
 }
@@ -32,6 +32,8 @@ const BodyCentered = styled.View`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border: 1px #dbdbdb solid;
+    margin-bottom: 8px;
 `;
 
 const Title = styled.Text`

@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import styled from 'styled-components';
 
+import AppMain from '../Styled/AppMain';
 import ButtonBase from '../Buttons/ButtonBase';
+
+import { attachCardToDeck } from '../../api/decks';
 
 class NewCardPage extends Component {
     constructor(props) {
@@ -10,7 +13,8 @@ class NewCardPage extends Component {
     
         this.state = {
             question: '',
-            answer: ''
+            answer: '',
+            type: ''
         }
     }
 
@@ -20,32 +24,71 @@ class NewCardPage extends Component {
         })
     };
 
+    createCard = async event => {
+        const { navigation } = this.props;
+        const deck = navigation.getParam('deck', {deck: null});
+        const refreshDeckList = navigation.getParam('refreshDeckList', () => null);
+
+        const res = await Promise.resolve(attachCardToDeck({
+            deckId: deck.id,
+            ...this.state
+        }));
+
+        refreshDeckList();
+
+        this.setState({
+            question: '',
+            answer: '',
+            type: ''
+        });
+
+        // navigation.navigate('DeckListPage');
+        navigation.pop();
+    }
+
     render() {
-        const { question, answer } = this.state;
+        const { question, answer, type } = this.state;
 
         return (
-            <PageBase>
-                <Body>
-                    <Title>Complete these steps to create a card</Title>
-                    <Subtitle>Question</Subtitle>
-                    <InputField
-                        onChangeText={this.changeText('question')}
-                        value={question}
-                    />
-                    <Subtitle>Answer</Subtitle>
-                    <InputField
-                        onChangeText={this.changeText('answer')}
-                        value={answer}
-                    />
-                </Body>
-                <Actions>
-                    <ButtonBase 
-                        text='Create Card!'
-                        filledColor='purple'
-                        textColor='white'
-                    />
-                </Actions>
-            </PageBase>
+            <AppMain>
+                <PageBase>
+                    <KeyboardAvoidingView 
+                        behavior='position' 
+                        contentContainerStyle={{
+                            flex: 4,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                        enabled
+                    >
+                        <Title>Complete these steps to create a card</Title>
+                        <Subtitle>Question</Subtitle>
+                        <InputField
+                            onChangeText={this.changeText('question')}
+                            value={question}
+                        />
+                        <Subtitle>Answer</Subtitle>
+                        <InputField
+                            onChangeText={this.changeText('answer')}
+                            value={answer}
+                        />  
+                        <Subtitle>Type</Subtitle>
+                        <InputField
+                            onChangeText={this.changeText('type')}
+                            value={type}
+                        />  
+                    </KeyboardAvoidingView>
+                    <Actions>
+                        <ButtonBase 
+                            text='Create Card!'
+                            filledColor='purple'
+                            textColor='white'
+                            onClick={this.createCard}
+                        />
+                    </Actions>
+                </PageBase>
+            </AppMain>
         );
     }
 }
@@ -57,19 +100,19 @@ const PageBase = styled.View`
     align-items: center;
 `;
 
-const Body = styled.View`
-    flex: 4;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-`;
+// const Body = styled.KeyboardAvoidingView`
+//     flex: 4;
+//     flex-direction: column;
+//     justify-content: center;
+//     align-items: center;
+// `;
 
 const Actions = styled.View`
     flex: 1;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin: 0 0 26px 0;
+    margin: 0 0 64px 0;
 `
 
 const Title = styled.Text`

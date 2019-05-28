@@ -1,40 +1,67 @@
-import React, { Fragment } from 'react';
-import { Text, View } from 'react-native';
+import React, { Fragment, Component } from 'react';
+import { Text, View, BackHandler } from 'react-native';
 import styled from 'styled-components';
 
+import AppMain from '../Styled/AppMain';
 import ButtonBase from '../Buttons/ButtonBase';
 
 const BASE_ACTIONS = [
-    {id: 'add', name: 'Add Card'},
-    {id: 'start', name: 'Start Quiz'}
+    {id: 'add', name: 'Add Card', toStack: 'NewCardPage'},
+    {id: 'start', name: 'Start Quiz', toStack: 'CardPage'}
 ]
 
-const DeckPage = props => {
-    const { deck: propsDeck, actions=BASE_ACTIONS } = props;
-    const deck = propsDeck || props.navigation.getParam('deck', {name: 'No Data', cards: 0})
+class DeckPage extends Component {
+    componentDidMount() {
+        BackHandler.addEventListener('backPress', () => {
+            const { navigation } = this.props;
+            navigation.navigate('DeckListPage');
+            return true;
+        });
+    }
 
-    return (
-        <PageBase>
-            <Body>
-                <Title>{deck.name}</Title>
-                <Subtitle>{Object.keys(deck.cards).length} Cards</Subtitle>
-            </Body>
-            <Actions>
-                {
-                    actions.map((action, index) => (
-                        <Fragment key={`fragment-${index}`}>
-                            <ButtonBase 
-                                text={action.name} 
-                                filledColor={(index % 2 === 1) && 'purple'}
-                                borderColor={(index % 2 === 0) && 'purple'}
-                                textColor={(index % 2 === 1) && 'white'}
-                            />
-                        </Fragment>
-                    ))
-                }
-            </Actions>
-        </PageBase>
-    );
+    componentWillUnmount() {
+        BackHandler.removeEventListener('backPress');
+    }
+
+    render() {
+        const { 
+            deck: propsDeck, 
+            actions=BASE_ACTIONS,
+            navigation
+        } = this.props;
+
+        const deck = propsDeck || navigation.getParam('deck', {name: 'No Data', cards: 0});
+
+        return (
+            <AppMain>
+                <PageBase>
+                    <Body>
+                        <Title>{deck.name}</Title>
+                        <Subtitle>{Object.keys(deck.cards).length} Cards</Subtitle>
+                    </Body>
+                    <Actions>
+                        {
+                            actions.map((action, index) => (
+                                <Fragment key={`fragment-${index}`}>
+                                    <ButtonBase 
+                                        text={action.name} 
+                                        filledColor={(index % 2 === 1) && 'purple'}
+                                        borderColor={(index % 2 === 0) && 'purple'}
+                                        textColor={(index % 2 === 1) && 'white'}
+                                        onClick={() => (
+                                            navigation && 
+                                            action.toStack &&
+                                            navigation.navigate(action.toStack, {deck, ...this.props})
+                                        )}
+                                    />
+                                </Fragment>
+                            ))
+                        }
+                    </Actions>
+                </PageBase>
+            </AppMain>
+        );
+    }
 }
 
 const PageBase = styled.View`

@@ -17,8 +17,8 @@ const CardBase = props => (
                             style={{flex: 3, width: 300}}
                             onPress={() => (
                                 props.navigation && 
-                                props.toStack &&
-                                props.navigation.navigate(props.toStack, {...props})
+                                props.bodyClickToStack &&
+                                props.navigation.navigate(props.bodyClickToStack, {...props})
                             )}
                         >
                             {props.body}
@@ -44,6 +44,11 @@ const CardBase = props => (
                         <TouchableOpacity 
                             key={`${action.name}-${index}`}
                             style={{flex: index > 0 ? 10 : 3}}
+                            onPress={() => (
+                                props.navigation && 
+                                action.toStack &&
+                                props.navigation.navigate(action.toStack, {...props})
+                            )}
                         >
                             <ActionText {...props}>{action.name}</ActionText>
                         </TouchableOpacity>

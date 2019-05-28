@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
 import styled from 'styled-components';
 
 import AppMain from '../Styled/AppMain';
 
 import ButtonBase from '../Buttons/ButtonBase';
+
+import { addDeck } from '../../api/decks';
 
 class NewDeckPage extends Component {
     constructor(props) {
@@ -21,24 +23,52 @@ class NewDeckPage extends Component {
         })
     };
 
+    createDeck = async event => {
+        const { deckName } = this.state;
+        const { navigation } = this.props;
+        const { refreshDeckList } = this.props.screenProps;
+
+        const res = await Promise.resolve(addDeck({
+            name: deckName
+        }));
+
+        refreshDeckList();
+
+        this.setState({
+            deckName: ''
+        });
+
+        navigation.navigate('DeckListPage');
+    }
+
     render() {
         const { deckName } = this.state;
 
         return (
             <AppMain>
                 <PageBase>
-                    <Body>
+                    <KeyboardAvoidingView 
+                        behavior='position' 
+                        contentContainerStyle={{
+                            flex: 4,
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                        enabled
+                    >
                         <Title>Give a name to your deck</Title>
                         <InputField
                             onChangeText={this.changeText}
                             value={deckName}
                         />
-                    </Body>
+                    </KeyboardAvoidingView>
                     <Actions>
                         <ButtonBase 
                             text='Create Deck!'
                             filledColor='purple'
                             textColor='white'
+                            onClick={this.createDeck}
                         />
                     </Actions>
                 </PageBase>
@@ -66,7 +96,7 @@ const Actions = styled.View`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    margin: 0 0 26px 0;
+    margin: 0 0 64px 0;
 `
 
 const Title = styled.Text`
