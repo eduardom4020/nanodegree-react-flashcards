@@ -7,7 +7,7 @@ import {
 
 import styled from 'styled-components';
 
-const CardBase = props => (
+const CardBase = props => { console.log('on card base ', props.deck); return (
     <FilledShadowedView>
         {
             props.body && (
@@ -15,11 +15,11 @@ const CardBase = props => (
                     (
                         <TouchableOpacity 
                             style={{flex: 3, width: 300}}
-                            onPress={() => (
+                            onPress={() => {console.log('ON PRESS ', props);return(
                                 props.navigation && 
                                 props.bodyClickToStack &&
-                                props.navigation.navigate(props.bodyClickToStack, {...props})
-                            )}
+                                props.navigation.push(props.bodyClickToStack, {...props})
+                            )}}
                         >
                             {props.body}
                         </TouchableOpacity>
@@ -57,7 +57,7 @@ const CardBase = props => (
             }
         </ActionsView>
     </FilledShadowedView>
-);
+)};
 
 const FilledShadowedView = styled.View`
     background-color: white;

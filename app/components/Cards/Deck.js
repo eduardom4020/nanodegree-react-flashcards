@@ -7,6 +7,8 @@ import CardBase from './CardBase';
 const Deck = props => {
     const { deck } = props;
 
+    console.log('Rendering deck', deck)
+
     return (
         <CardBase
             {...props}

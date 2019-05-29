@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import AppMain from '../Styled/AppMain';
 import ButtonBase from '../Buttons/ButtonBase';
 
+import { setLocalNotification, clearLocalNotification } from '../../api/notifications';
+
 class CardPage extends Component {
     constructor(props) {
         super(props);
@@ -74,6 +76,9 @@ class CardPage extends Component {
         const { cards, answeredCardsIds } = this.state;
 
         if(answeredCardsIds.length === Object.keys(cards).length) {
+            clearLocalNotification();
+            setLocalNotification();
+
             this.setState({
                 checkAnswer: false,
                 currentCard: {name: 'finished', type: 'no-type', id: 'f', answer: 'finished'},
@@ -109,6 +114,8 @@ class CardPage extends Component {
         const cardsAmt = cards && Object.keys(cards).length;
         const correctAmt = correctCardsIds.length;
 
+        console.log('RENDERING CARD PAGE', cardsAmt, correctAmt)
+
         return (
             <AppMain>
                 <PageBase>
@@ -127,17 +134,23 @@ class CardPage extends Component {
                                             <Fragment>
                                                 <Title>
                                                     {
-                                                        (cardsAmt === correctAmt && 'Impressive') ||
-                                                        (cardsAmt * 0.8 >= correctAmt && 'Congratulations') ||
-                                                        (cardsAmt * 0.5 >= correctAmt && 'Good') ||
-                                                        (cardsAmt * 0.3 >= correctAmt && 'You can do better') ||
-                                                        (cardsAmt * 0.1 >= correctAmt && "Let's study more") ||
-                                                        'How bad'
+                                                        correctAmt + 1 === cardsAmt ? 
+                                                            'Impressive' 
+                                                        : correctAmt + 1 >= cardsAmt * 0.8 ?
+                                                            'Congratulations'
+                                                        : correctAmt + 1 >= cardsAmt * 0.6 ?
+                                                            'Good'
+                                                        : correctAmt + 1 >= cardsAmt * 0.3 ?
+                                                            'You can do better'
+                                                        : correctAmt + 1 >= cardsAmt * 0.1 ?
+                                                            "Let's study more"
+                                                        :
+                                                            'So bad'
                                                     }
                                                 </Title>
                                                 <Subtitle>These are your results:</Subtitle>
                                                 <ResultBody>
-
+                                                    <Title>{correctAmt > 0 ? `${(correctAmt + 1) / cardsAmt * 100}%\n of Correct Answers` : 'Everything is Wrong!'}</Title>
                                                 </ResultBody>
                                             </Fragment>
                                         )
@@ -249,6 +262,7 @@ const Actions = styled.View`
 const Title = styled.Text`
     flex: 2;
     font-size: 35px;
+    text-align: center
 `;
 
 const Subtitle = styled.Text`

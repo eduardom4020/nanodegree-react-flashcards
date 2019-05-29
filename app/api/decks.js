@@ -59,7 +59,7 @@ export const attachCardToDeck = async ({deckId, question, answer, type}) => {
 
             AsyncStorage.setItem(DECKS_SCHEMA, JSON.stringify(decks));
 
-            return true;
+            return deck;
         } else {
             return false;
         }

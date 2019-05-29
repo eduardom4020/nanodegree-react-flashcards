@@ -1,5 +1,6 @@
 export const CARDS_SCHEMA = 'Flashcards:Cards';
 export const DECKS_SCHEMA = 'Flashcards:Decks';
+export const NOTIFICATIONS_SCHEMA = 'Flashcards:Notifications';
 
 export const INITIAL_DATA = {
     c1: {

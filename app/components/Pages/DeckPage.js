@@ -11,6 +11,10 @@ const BASE_ACTIONS = [
 ]
 
 class DeckPage extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     componentDidMount() {
         BackHandler.addEventListener('backPress', () => {
             const { navigation } = this.props;
@@ -30,8 +34,9 @@ class DeckPage extends Component {
             navigation
         } = this.props;
 
-        const deck = propsDeck || navigation.getParam('deck', {name: 'No Data', cards: 0});
-
+        const deck = propsDeck || navigation.getParam('deck', {deck: null});
+        const refreshDeckList = navigation.getParam('refreshDeckList', () => console.log('refreshDeckList is null'));
+        console.log('Rendering deck page', deck, propsDeck, navigation.state.params.deck)
         return (
             <AppMain>
                 <PageBase>
@@ -51,7 +56,7 @@ class DeckPage extends Component {
                                         onClick={() => (
                                             navigation && 
                                             action.toStack &&
-                                            navigation.navigate(action.toStack, {deck, ...this.props})
+                                            navigation.navigate(action.toStack, {...this.props, deck, refreshDeckList, from: 'DeckPage'})
                                         )}
                                     />
                                 </Fragment>

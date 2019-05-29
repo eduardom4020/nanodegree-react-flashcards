@@ -6,6 +6,7 @@ import {createAppContainer} from 'react-navigation';
 const AppContainer = createAppContainer(AppTabNavigator);
 
 import { getAllDecks } from './api/decks';
+import { setLocalNotification } from './api/notifications';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -24,6 +25,7 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
+        setLocalNotification();
         this.refreshDeckList();
     }
 

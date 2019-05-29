@@ -10,25 +10,6 @@ import Deck from '../Cards/Deck';
 import { getAllDecks } from '../../api/decks';
 
 class DeckListPage extends Component {
-    // constructor(props) {
-    //     super(props);
-
-    //     this.state = {
-    //         decks: null
-    //     };
-    // }
-
-    // refreshDeckList = async () => {
-    //     const decks = await Promise.resolve(getAllDecks());
-    //     this.setState({
-    //         decks
-    //     });
-    // }
-
-    // componentDidMount() {
-    //     this.refreshDeckList();
-    // }
-
     render() {
         const { decks } = this.props.screenProps;
         const screenWidth = Dimensions.get('window').width;
@@ -56,7 +37,6 @@ class DeckListPage extends Component {
                                         style={{marginBottom: 4, flex: 1}}
                                         key={`deck-${deck.id}`}
                                         deck={deck} 
-                                        // refreshDeckList={this.refreshDeckList}
                                         {...this.props}
                                         {...this.props.screenProps}
                                     />
@@ -64,7 +44,6 @@ class DeckListPage extends Component {
                             )
                         :
                             (
-                                // <Deck deck={PlaceholderDeck1.pd1} {...this.props} />
                                 <Text>No decks available</Text>
                             )
                     }

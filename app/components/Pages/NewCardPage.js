@@ -26,10 +26,11 @@ class NewCardPage extends Component {
 
     createCard = async event => {
         const { navigation } = this.props;
-        const deck = navigation.getParam('deck', {deck: null});
-        const refreshDeckList = navigation.getParam('refreshDeckList', () => null);
+        const from = navigation.getParam('from');
+        const deck = navigation.getParam('deck');
+        const refreshDeckList = navigation.getParam('refreshDeckList', () => console.log('refreshDeckList is null'));
 
-        const res = await Promise.resolve(attachCardToDeck({
+        const newDeck = await Promise.resolve(attachCardToDeck({
             deckId: deck.id,
             ...this.state
         }));
@@ -42,8 +43,9 @@ class NewCardPage extends Component {
             type: ''
         });
 
-        // navigation.navigate('DeckListPage');
-        navigation.pop();
+        navigation.navigate(from || 'DeckListPage', {deck: newDeck});
+        // navigation.pop();
+        // navigation.goBack();
     }
 
     render() {
