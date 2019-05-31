@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import AppMain from '../Styled/AppMain';
 import ButtonBase from '../Buttons/ButtonBase';
 
+import { Platform } from 'react-native';
+
 import { attachCardToDeck } from '../../api/decks';
 
 class NewCardPage extends Component {
@@ -30,22 +32,26 @@ class NewCardPage extends Component {
         const deck = navigation.getParam('deck');
         const refreshDeckList = navigation.getParam('refreshDeckList', () => console.log('refreshDeckList is null'));
 
-        const newDeck = await Promise.resolve(attachCardToDeck({
-            deckId: deck.id,
-            ...this.state
-        }));
+        const { question, answer } = this.state;
 
-        refreshDeckList();
+        if(question.replace(' ', '') !== '' || answer.replace(' ', '') !== '') {
+          const newDeck = await Promise.resolve(attachCardToDeck({
+              deckId: deck.id,
+              ...this.state
+          }));
 
-        this.setState({
-            question: '',
-            answer: '',
-            type: ''
-        });
+          refreshDeckList();
 
-        navigation.navigate(from || 'DeckListPage', {deck: newDeck});
-        // navigation.pop();
-        // navigation.goBack();
+          this.setState({
+              question: '',
+              answer: '',
+              type: ''
+          });
+
+          navigation.navigate(from || 'DeckListPage', {deck: newDeck});
+        } else {
+          alert('Please write at least a question and an answer!');
+        }
     }
 
     render() {
@@ -101,13 +107,6 @@ const PageBase = styled.View`
     justify-content: space-around;
     align-items: center;
 `;
-
-// const Body = styled.KeyboardAvoidingView`
-//     flex: 4;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-// `;
 
 const Actions = styled.View`
     flex: 1;

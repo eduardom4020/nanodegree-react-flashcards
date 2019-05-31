@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, KeyboardAvoidingView } from 'react-native';
+import { Text, View, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import styled from 'styled-components';
 
 import AppMain from '../Styled/AppMain';
@@ -28,17 +28,21 @@ class NewDeckPage extends Component {
         const { navigation } = this.props;
         const { refreshDeckList } = this.props.screenProps;
 
-        const res = await Promise.resolve(addDeck({
-            name: deckName
-        }));
+        if(deckName.replace(' ', '') !== '') {
+          const res = await Promise.resolve(addDeck({
+              name: deckName
+          }));
 
-        refreshDeckList();
+          refreshDeckList();
 
-        this.setState({
-            deckName: ''
-        });
+          this.setState({
+              deckName: ''
+          });
 
-        navigation.navigate('DeckListPage');
+          navigation.navigate('DeckListPage');
+        } else {
+          alert('Please write a name for your deck!')
+        }
     }
 
     render() {

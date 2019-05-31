@@ -4,6 +4,7 @@ import AppMain from '../Styled/AppMain';
 import { ScrollView, Text, Dimensions } from 'react-native';
 
 import { PlaceholderDeck1 } from '../../placeholder/data/decks';
+import { Platform } from 'react-native';
 
 import Deck from '../Cards/Deck';
 

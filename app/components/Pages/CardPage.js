@@ -1,5 +1,5 @@
 import React, { Fragment, Component } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Platform } from 'react-native';
 import styled from 'styled-components';
 
 import AppMain from '../Styled/AppMain';
@@ -59,10 +59,18 @@ class CardPage extends Component {
 
     selectRandomCard = CARDS => {
         const { cards, deck } = CARDS || this.extractFromProps();
-        const { answeredCardsIds } = this.state;
-        const validCards = Object.values(cards).filter(card => answeredCardsIds.indexOf(card.id) === -1);
-        const currentCard = validCards[Math.floor(Math.random()*validCards.length)];
-        this.setState({currentCard, cards, deck});
+        const { navigation } = this.props;
+
+        if(Object.values(cards).length > 0) {
+          const { answeredCardsIds } = this.state;
+          const validCards = Object.values(cards).filter(card => answeredCardsIds.indexOf(card.id) === -1);
+          const currentCard = validCards[Math.floor(Math.random()*validCards.length)];
+          this.setState({currentCard, cards, deck});
+        } else {
+          alert('No cards available, rolling back...');
+          this.resetQuiz();
+          navigation.pop();
+        }
     }
 
     checkAnswer = cardId => event => {
@@ -121,8 +129,6 @@ class CardPage extends Component {
 
         const cardsAmt = cards && Object.keys(cards).length;
         const correctAmt = correctCardsIds.length;
-
-        console.log('RENDERING CARD PAGE', cardsAmt, correctAmt)
 
         return (
             <AppMain>
@@ -236,6 +242,7 @@ const PageBase = styled.View`
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    margin-top: ${Platform.OS === 'ios' ? '16px' : '0'};
 `;
 
 const Header = styled.View`

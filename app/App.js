@@ -3,10 +3,10 @@ import AppTabNavigator from './AppTabNavigator';
 
 import {createAppContainer} from 'react-navigation';
 
-const AppContainer = createAppContainer(AppTabNavigator);
-
 import { getAllDecks } from './api/decks';
 import { setLocalNotification } from './api/notifications';
+
+const AppContainer = createAppContainer(AppTabNavigator);
 
 export default class App extends React.Component {
     constructor(props) {
