@@ -79,11 +79,14 @@ class CardPage extends Component {
             clearLocalNotification();
             setLocalNotification();
 
-            this.setState({
+            this.setState(prevState => ({
                 checkAnswer: false,
                 currentCard: {name: 'finished', type: 'no-type', id: 'f', answer: 'finished'},
+                points: isCorrect ? prevState.points + 1 : prevState.points,
+                correctCardsIds: isCorrect ? [...prevState.correctCardsIds, cardId] : prevState.correctCardsIds,
+                incorrectCardsIds: !isCorrect ? [...prevState.incorrectCardsIds, cardId] : prevState.incorrectCardsIds,
                 getResult: true
-            });
+            }));
         } else {
             this.selectRandomCard();
 
@@ -134,15 +137,15 @@ class CardPage extends Component {
                                             <Fragment>
                                                 <Title>
                                                     {
-                                                        correctAmt + 1 === cardsAmt ? 
+                                                        correctAmt === cardsAmt ? 
                                                             'Impressive' 
-                                                        : correctAmt + 1 >= cardsAmt * 0.8 ?
+                                                        : correctAmt >= cardsAmt * 0.8 ?
                                                             'Congratulations'
-                                                        : correctAmt + 1 >= cardsAmt * 0.6 ?
+                                                        : correctAmt >= cardsAmt * 0.6 ?
                                                             'Good'
-                                                        : correctAmt + 1 >= cardsAmt * 0.3 ?
+                                                        : correctAmt >= cardsAmt * 0.3 ?
                                                             'You can do better'
-                                                        : correctAmt + 1 >= cardsAmt * 0.1 ?
+                                                        : correctAmt >= cardsAmt * 0.1 ?
                                                             "Let's study more"
                                                         :
                                                             'So bad'
@@ -150,7 +153,7 @@ class CardPage extends Component {
                                                 </Title>
                                                 <Subtitle>These are your results:</Subtitle>
                                                 <ResultBody>
-                                                    <Title>{correctAmt > 0 ? `${(correctAmt + 1) / cardsAmt * 100}%\n of Correct Answers` : 'Everything is Wrong!'}</Title>
+                                                    <Title>{correctAmt > 0 ? `${correctAmt / cardsAmt * 100}%\n of Correct Answers` : 'Everything is Wrong!'}</Title>
                                                 </ResultBody>
                                             </Fragment>
                                         )
