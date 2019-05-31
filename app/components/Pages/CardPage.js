@@ -76,8 +76,13 @@ class CardPage extends Component {
         const { cards, answeredCardsIds } = this.state;
 
         if(answeredCardsIds.length === Object.keys(cards).length) {
-            clearLocalNotification();
-            setLocalNotification();
+            if(clearLocalNotification) {
+                clearLocalNotification();
+            }
+            
+            if(setLocalNotification) {
+                setLocalNotification();
+            }
 
             this.setState(prevState => ({
                 checkAnswer: false,

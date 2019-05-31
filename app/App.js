@@ -25,7 +25,10 @@ export default class App extends React.Component {
     }
 
     componentDidMount() {
-        setLocalNotification();
+        if(setLocalNotification) {
+            setLocalNotification();
+        }
+        
         this.refreshDeckList();
     }
 
