@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import {
+  Text,
+  View,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 import styled from 'styled-components';
 
 import AppMain from '../Styled/AppMain';
@@ -9,76 +15,76 @@ import ButtonBase from '../Buttons/ButtonBase';
 import { addDeck } from '../../api/decks';
 
 class NewDeckPage extends Component {
-    constructor(props) {
-        super(props);
-    
-        this.state = {
-            deckName: ''
-        }
-    }
+  constructor(props) {
+    super(props);
 
-    changeText = text => {
-        this.setState({
-            deckName: text
-        })
+    this.state = {
+      deckName: '',
     };
+  }
 
-    createDeck = async event => {
-        const { deckName } = this.state;
-        const { navigation } = this.props;
-        const { refreshDeckList } = this.props.screenProps;
+  changeText = text => {
+    this.setState({
+      deckName: text,
+    });
+  };
 
-        if(deckName.replace(' ', '') !== '') {
-          const res = await Promise.resolve(addDeck({
-              name: deckName
-          }));
+  createDeck = async event => {
+    const { deckName } = this.state;
+    const { navigation } = this.props;
+    const { refreshDeckList } = this.props.screenProps;
 
-          refreshDeckList();
+    if (deckName.replace(' ', '') !== '') {
+      const deck = await Promise.resolve(
+        addDeck({
+          name: deckName,
+        })
+      );
 
-          this.setState({
-              deckName: ''
-          });
+      refreshDeckList();
 
-          navigation.navigate('DeckListPage');
-        } else {
-          alert('Please write a name for your deck!')
-        }
+      this.setState({
+        deckName: '',
+      });
+
+      console.log(deck);
+
+      navigation.navigate('DeckListPage', { ...this.props, deck });
+    } else {
+      alert('Please write a name for your deck!');
     }
+  };
 
-    render() {
-        const { deckName } = this.state;
+  render() {
+    const { deckName } = this.state;
 
-        return (
-            <AppMain>
-                <PageBase>
-                    <KeyboardAvoidingView 
-                        behavior='position' 
-                        contentContainerStyle={{
-                            flex: 4,
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                        }}
-                        enabled
-                    >
-                        <Title>Give a name to your deck</Title>
-                        <InputField
-                            onChangeText={this.changeText}
-                            value={deckName}
-                        />
-                    </KeyboardAvoidingView>
-                    <Actions>
-                        <ButtonBase 
-                            text='Create Deck!'
-                            filledColor='purple'
-                            textColor='white'
-                            onClick={this.createDeck}
-                        />
-                    </Actions>
-                </PageBase>
-            </AppMain>
-        );
-    }
+    return (
+      <AppMain>
+        <PageBase>
+          <KeyboardAvoidingView
+            behavior="position"
+            contentContainerStyle={{
+              flex: 4,
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+            enabled>
+            <Title>Give a name to your deck</Title>
+            <InputField onChangeText={this.changeText} value={deckName} />
+          </KeyboardAvoidingView>
+          <Actions>
+            <ButtonBase
+              text="Create Deck!"
+              filledColor="purple"
+              textColor="white"
+              onClick={this.createDeck}
+            />
+          </Actions>
+        </PageBase>
+      </AppMain>
+    );
+  }
 }
 
 const PageBase = styled.View`
@@ -101,7 +107,7 @@ const Actions = styled.View`
     justify-content: space-around;
     align-items: center;
     margin: 0 0 64px 0;
-`
+`;
 
 const Title = styled.Text`
     font-size: 35px;
@@ -111,7 +117,7 @@ const Title = styled.Text`
 const Subtitle = styled.Text`
     font-size: 20px;
     color: grey;
-`
+`;
 
 const InputField = styled.TextInput`
     flex: 1;

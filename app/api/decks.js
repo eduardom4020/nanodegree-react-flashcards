@@ -24,7 +24,8 @@ export const addDeck = ({name}) => {
         }
     };
 
-    return AsyncStorage.mergeItem(DECKS_SCHEMA, JSON.stringify(toStore));
+    AsyncStorage.mergeItem(DECKS_SCHEMA, JSON.stringify(toStore));
+    return toStore[id];
 }
 
 export const getDeck = async (deckId) => {

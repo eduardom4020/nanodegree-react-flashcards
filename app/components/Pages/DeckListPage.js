@@ -11,6 +11,16 @@ import Deck from '../Cards/Deck';
 import { getAllDecks } from '../../api/decks';
 
 class DeckListPage extends Component {
+    componentDidUpdate(prevProps, prevState) {
+      const { navigation } = this.props;
+      const deck = navigation.getParam('deck', false);
+
+      if(deck && JSON.stringify(deck) !== JSON.stringify(prevProps.deck)) {
+        navigation.navigate('DeckPage', {...this.props, deck});
+      }
+      
+    }
+    
     render() {
         const { decks } = this.props.screenProps;
         const screenWidth = Dimensions.get('window').width;
